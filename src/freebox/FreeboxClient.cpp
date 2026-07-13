@@ -3,6 +3,11 @@
 
 #include "FreeboxClient.h"
 
+FreeboxClient::FreeboxClient()
+    : m_http("https://mafreebox.freebox.fr/api/v16")
+{
+}
+
 void FreeboxClient::registerApp()
 {
     nlohmann::json body = {
@@ -18,7 +23,7 @@ void FreeboxClient::registerApp()
 
 void FreeboxClient::login()
 {
-    auto response = m_http.get("http://mafreebox.freebox.fr/api/v16/login/");
+    auto response = m_http.get("/login/");
 
     auto json = nlohmann::json::parse(response);
 

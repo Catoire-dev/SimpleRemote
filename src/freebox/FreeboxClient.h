@@ -5,6 +5,8 @@
 class FreeboxClient
 {
 public:
+    FreeboxClient();
+
     void login();
     void registerApp();
 
