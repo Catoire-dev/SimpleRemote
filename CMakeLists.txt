@@ -5,6 +5,11 @@ project(SimpleRemote)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+find_package(CURL REQUIRED)
+
 add_executable(SimpleRemote
     src/main.cpp
+    src/HttpClient.cpp
 )
+
+target_link_libraries(SimpleRemote PRIVATE CURL::libcurl)
