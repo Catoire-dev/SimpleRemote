@@ -115,7 +115,3 @@ Remove-Item -Recurse -Force build
 - [ ] Portage ESP32
 
 ---
-
-## Licence
-
-MIT
