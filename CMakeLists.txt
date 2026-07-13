@@ -9,7 +9,7 @@ find_package(CURL REQUIRED)
 
 add_executable(SimpleRemote
     src/main.cpp
-    src/HttpClient.cpp
+    src/http/HttpClient.cpp
 )
 
 target_link_libraries(SimpleRemote PRIVATE CURL::libcurl)
