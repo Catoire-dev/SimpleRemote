@@ -6,4 +6,5 @@ class HttpClient
 {
 public:
     std::string get(const std::string &url);
+    std::string post(const std::string &url, const std::string &body);
 };

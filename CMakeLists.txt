@@ -11,6 +11,7 @@ find_package(nlohmann_json REQUIRED)
 add_executable(SimpleRemote
     src/main.cpp
     src/http/HttpClient.cpp
+    src/freebox/FreeBoxClient.cpp
 )
 
 target_link_libraries(SimpleRemote PRIVATE
