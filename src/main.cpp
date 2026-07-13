@@ -8,7 +8,7 @@ int main()
     {
         FreeboxClient freebox;
 
-        freebox.login();
+        freebox.registerApp();
     }
     catch (const std::exception &e)
     {

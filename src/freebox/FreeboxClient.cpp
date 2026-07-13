@@ -14,11 +14,15 @@ void FreeboxClient::registerApp()
         {"app_id", "fr.elrahc.simpleremote"},
         {"app_name", "Simple Remote"},
         {"app_version", "0.1.0"},
-        {"device_name", "Windows"}};
+        {"device_name", "PC"}};
 
     auto response = m_http.post(
-        "http://mafreebox.freebox.fr/api/v16/login/authorize/",
+        "/login/authorize/",
         body.dump());
+
+    auto json = nlohmann::json::parse(response);
+
+    std::cout << json.dump(4) << std::endl;
 }
 
 void FreeboxClient::login()
