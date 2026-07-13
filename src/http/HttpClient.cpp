@@ -3,16 +3,16 @@
 #include <curl/curl.h>
 #include <stdexcept>
 
-static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp)
+static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
-    auto* response = static_cast<std::string*>(userp);
-    response->append(static_cast<char*>(contents), size * nmemb);
+    auto *response = static_cast<std::string *>(userp);
+    response->append(static_cast<char *>(contents), size * nmemb);
     return size * nmemb;
 }
 
-std::string HttpClient::get(const std::string& url)
+std::string HttpClient::get(const std::string &url)
 {
-    CURL* curl = curl_easy_init();
+    CURL *curl = curl_easy_init();
 
     if (!curl)
     {
