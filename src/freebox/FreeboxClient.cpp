@@ -8,7 +8,7 @@ FreeboxClient::FreeboxClient()
 {
 }
 
-void FreeboxClient::registerApp()
+Authorization FreeboxClient::registerApp()
 {
     nlohmann::json body = {
         {"app_id", "fr.elrahc.simpleremote"},
@@ -22,7 +22,11 @@ void FreeboxClient::registerApp()
 
     auto json = nlohmann::json::parse(response);
 
-    std::cout << json.dump(4) << std::endl;
+    // std::cout << json.dump(4) << std::endl;
+
+    return {
+        json["result"]["app_token"],
+        json["result"]["track_id"]};
 }
 
 void FreeboxClient::login()

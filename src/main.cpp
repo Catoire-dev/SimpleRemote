@@ -8,7 +8,10 @@ int main()
     {
         FreeboxClient freebox;
 
-        freebox.registerApp();
+        auto auth = freebox.registerApp();
+
+        std::cout << "Track ID : " << auth.trackId << std::endl;
+        std::cout << "Token    : " << auth.appToken << std::endl;
     }
     catch (const std::exception &e)
     {
