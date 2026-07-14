@@ -28,12 +28,3 @@ Authorization FreeboxClient::registerApp()
         json["result"]["app_token"],
         json["result"]["track_id"]};
 }
-
-void FreeboxClient::login()
-{
-    auto response = m_http.get("/login/");
-
-    auto json = nlohmann::json::parse(response);
-
-    std::cout << json.dump(4) << std::endl;
-}
