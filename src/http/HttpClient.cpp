@@ -35,10 +35,7 @@ void HttpClient::removeHeader(const std::string &key)
     m_headers.erase(key);
 }
 
-std::string HttpClient::request(
-    const std::string &method,
-    const std::string &path,
-    const std::string &body)
+std::string HttpClient::request(const std::string &method, const std::string &path, const std::string &body)
 {
     CURL *curl = curl_easy_init();
 
@@ -76,10 +73,26 @@ std::string HttpClient::request(
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body.c_str());
     }
 
+    for (const auto &[key, value] : m_headers)
+    {
+        std::string header = key + ": " + value;
+        headers = curl_slist_append(headers, header.c_str());
+    }
+
+    if (headers)
+    {
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+    }
+
     CURLcode result = curl_easy_perform(curl);
 
     curl_slist_free_all(headers);
     curl_easy_cleanup(curl);
+
+    if (headers)
+    {
+        curl_slist_free_all(headers);
+    }
 
     if (result != CURLE_OK)
     {
