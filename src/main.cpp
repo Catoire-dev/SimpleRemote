@@ -1,33 +1,18 @@
 #include <iostream>
-#include <thread>
-#include <chrono>
 
 #include "freebox/FreeboxClient.h"
+#include "storage/Settings.h"
 
 int main()
 {
     try
     {
+        Settings settings;
         FreeboxClient freebox;
 
-        auto auth = freebox.registerApp();
+        freebox.pair(settings);
 
-        std::cout << "Valide la demande sur la Freebox..." << std::endl;
-
-        while (true)
-        {
-            auto status = freebox.getAuthorizationStatus(auth.trackId);
-
-            std::cout << "Statut : " << status.status << std::endl;
-
-            if (status.status != "pending")
-            {
-                break;
-            }
-
-            std::this_thread::sleep_for(
-                std::chrono::seconds(1));
-        }
+        std::cout << "App Token : " << settings.getAppToken() << std::endl;
     }
     catch (const std::exception &e)
     {

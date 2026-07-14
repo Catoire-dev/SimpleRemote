@@ -1,5 +1,7 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
+#include <thread>
+#include <chrono>
 
 #include "FreeboxClient.h"
 
@@ -39,4 +41,42 @@ AuthorizationStatus FreeboxClient::getAuthorizationStatus(int trackId)
     return {
         json["result"]["status"],
         json["result"]["challenge"]};
+}
+
+void FreeboxClient::pair(Settings &settings)
+{
+    if (settings.hasAppToken())
+    {
+        return;
+    }
+
+    auto auth = registerApp();
+
+    std::cout << "Valide la demande sur la Freebox..." << std::endl;
+
+    while (true)
+    {
+        auto status = getAuthorizationStatus(auth.trackId);
+
+        std::cout << "Statut : " << status.status << std::endl;
+
+        if (status.status == "granted")
+        {
+            settings.setAppToken(auth.appToken);
+            std::cout << "Application enregistrée !" << std::endl;
+            return;
+        }
+
+        if (status.status == "denied")
+        {
+            throw std::runtime_error("Autorisation refusée.");
+        }
+
+        if (status.status == "timeout")
+        {
+            throw std::runtime_error("Autorisation expirée.");
+        }
+
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
 }

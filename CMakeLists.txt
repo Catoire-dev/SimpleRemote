@@ -12,6 +12,7 @@ add_executable(SimpleRemote
     src/main.cpp
     src/http/HttpClient.cpp
     src/freebox/FreeBoxClient.cpp
+    src/storage/Settings.cpp
 )
 
 target_link_libraries(SimpleRemote PRIVATE
