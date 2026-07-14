@@ -7,12 +7,16 @@ int main()
 {
     try
     {
-        Settings settings;
+        // Settings settings;
         FreeboxClient freebox;
 
-        freebox.pair(settings);
+        auto challenge = freebox.getChallenge();
 
-        std::cout << "App Token : " << settings.getAppToken() << std::endl;
+        std::cout << challenge.challenge << std::endl;
+
+        // freebox.pair(settings);
+
+        // std::cout << "App Token : " << settings.getAppToken() << std::endl;
     }
     catch (const std::exception &e)
     {
