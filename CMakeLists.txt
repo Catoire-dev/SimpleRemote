@@ -7,15 +7,18 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(CURL REQUIRED)
 find_package(nlohmann_json REQUIRED)
+find_package(OpenSSL REQUIRED)
 
 add_executable(SimpleRemote
     src/main.cpp
     src/http/HttpClient.cpp
     src/freebox/FreeBoxClient.cpp
     src/storage/Settings.cpp
+    src/crypto/Hmac.cpp
 )
 
 target_link_libraries(SimpleRemote PRIVATE
     CURL::libcurl
     nlohmann_json::nlohmann_json
+    OpenSSL::Crypto
 )

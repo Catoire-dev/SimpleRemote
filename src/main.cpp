@@ -2,6 +2,7 @@
 
 #include "freebox/FreeboxClient.h"
 #include "storage/Settings.h"
+#include "crypto/Hmac.h"
 
 int main()
 {
@@ -10,9 +11,10 @@ int main()
         // Settings settings;
         FreeboxClient freebox;
 
-        auto challenge = freebox.getChallenge();
+        std::cout << Hmac::sha1("secret", "hello") << std::endl;
+        // auto challenge = freebox.getChallenge();
 
-        std::cout << challenge.challenge << std::endl;
+        // std::cout << challenge.challenge << std::endl;
 
         // freebox.pair(settings);
 
