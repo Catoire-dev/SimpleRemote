@@ -43,6 +43,17 @@ AuthorizationStatus FreeboxClient::getAuthorizationStatus(int trackId)
         json["result"]["challenge"]};
 }
 
+Challenge FreeboxClient::getChallenge()
+{
+    auto response = m_http.get("/login/");
+
+    auto json = nlohmann::json::parse(response);
+
+    return {
+        json["result"]["challenge"],
+        json["result"]["logged_in"]};
+}
+
 void FreeboxClient::pair(Settings &settings)
 {
     if (settings.hasAppToken())
