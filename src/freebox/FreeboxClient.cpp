@@ -4,6 +4,8 @@
 #include <chrono>
 
 #include "FreeboxClient.h"
+#include "../crypto/Hmac.h"
+#include "../Config.h"
 
 FreeboxClient::FreeboxClient()
     : m_http("https://mafreebox.freebox.fr/api/v16")
@@ -90,4 +92,33 @@ void FreeboxClient::pair(Settings &settings)
 
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
+}
+
+Session FreeboxClient::openSession(Settings &settings)
+{
+    auto challenge = getChallenge();
+
+    auto password = Hmac::sha1(
+        settings.getAppToken(),
+        challenge.challenge);
+
+    nlohmann::json body =
+        {
+            {"app_id", APP_ID},
+            {"password", password}};
+
+    auto response = m_http.post(
+        "/login/session/",
+        body.dump());
+
+    auto json = nlohmann::json::parse(response);
+
+    Session session;
+    session.sessionToken = json["result"]["session_token"];
+
+    m_http.setHeader(
+        "X-Fbx-App-Auth",
+        session.sessionToken);
+
+    return session;
 }
