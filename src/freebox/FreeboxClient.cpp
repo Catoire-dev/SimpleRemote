@@ -122,3 +122,26 @@ Session FreeboxClient::openSession(Settings &settings)
 
     return session;
 }
+
+std::vector<Player> FreeboxClient::getPlayers()
+{
+    auto response = m_http.get("/player");
+
+    auto json = nlohmann::json::parse(response);
+    if (!json["success"])
+    {
+        throw std::runtime_error(json["msg"]);
+    }
+
+    std::vector<Player> players;
+
+    for (const auto &item : json["result"])
+    {
+        players.push_back({item["id"],
+                           item["device_name"],
+                           item["reachable"],
+                           item["api_available"]});
+    }
+
+    return players;
+}

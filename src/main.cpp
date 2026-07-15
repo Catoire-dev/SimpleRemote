@@ -11,16 +11,21 @@ int main()
         Settings settings;
         FreeboxClient freebox;
 
-        std::cout << Hmac::sha1("secret", "hello") << std::endl;
-        auto session = freebox.openSession(settings);
-        std::cout << session.sessionToken << std::endl;
-        // auto challenge = freebox.getChallenge();
+        freebox.pair(settings);
 
-        // std::cout << challenge.challenge << std::endl;
+        freebox.openSession(settings);
 
-        // freebox.pair(settings);
+        auto players = freebox.getPlayers();
 
-        // std::cout << "App Token : " << settings.getAppToken() << std::endl;
+        for (const auto &player : players)
+        {
+            std::cout
+                << player.id
+                << " - "
+                << player.deviceName
+                << " (reachable=" << player.reachable << ")"
+                << std::endl;
+        }
     }
     catch (const std::exception &e)
     {
